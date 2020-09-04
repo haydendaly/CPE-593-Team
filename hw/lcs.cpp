@@ -1,13 +1,19 @@
 #include <iostream>
 #include <cmath>
 
-struct lcs {
+
+/* Struct to hold number of matching characters and string of all matching characters */
+typedef struct {
     int length;
     std::string subsequence;
-} hw1;
+} lcs;
 
-struct lcs memoStringLcs(const std::string a, const std::string b)   // O(mn)
+
+/* Function calculating LCS and identifying matching characters in O(m*n) time */
+lcs memoStringLcs(const std::string a, const std::string b)
 {
+	lcs hw1;
+
     int memo[1000][1000] = {0};
     int i, j;
     int maxVal = 0;
@@ -35,8 +41,8 @@ struct lcs memoStringLcs(const std::string a, const std::string b)   // O(mn)
 
 int main()
 {
-    std::cout << memoStringLcs("hello", "ohell").length << '\n';
-    std::cout << memoStringLcs("hello world", "ohell wxlxd").subsequence << '\n'; // 8
-    std::cout << memoStringLcs("racecar", "racecar").length << '\n'; // 7
-    std::cout << memoStringLcs("", "racecar").length << '\n'; // 0
+    std::cout << "hello, ohell:              " << "length: " << memoStringLcs("hello", "ohell").length << " subsequence: " << memoStringLcs("hello", "ohell").subsequence << std::endl; // 4
+    std::cout << "hello world, ohell wxlxd:  " << "length: " << memoStringLcs("hello world", "ohell wxlxd").length << " subsequence: " << memoStringLcs("hello world", "ohell wxlxd").subsequence << std::endl; // 8
+    std::cout << "racecar, racecar:          " << "length: " << memoStringLcs("racecar", "racecar").length << " subsequence: " << memoStringLcs("racecar", "racecar").subsequence << std::endl; // 7
+    std::cout << ", racecar:                 " << "length: " << memoStringLcs("", "racecar").length << " subsequence: " << memoStringLcs("", "racecar").subsequence << std::endl; // 0
 }

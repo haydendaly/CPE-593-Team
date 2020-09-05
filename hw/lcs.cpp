@@ -1,13 +1,15 @@
 #include <iostream>
-#include <cmath>
 
+/*
+I pledge my honor I have abided by the Stevens Honor System.
+- Hayden C. Daly, James Lawrence, Roman Bellisari
+*/
 
 /* Struct to hold number of matching characters and string of all matching characters */
 typedef struct {
     int length;
     std::string subsequence;
 } lcs;
-
 
 /* Function calculating LCS and identifying matching characters in O(m*n) time */
 lcs memoStringLcs(const std::string a, const std::string b)

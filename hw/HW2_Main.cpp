@@ -7,10 +7,9 @@ int gcd(int a, int b) {
     return gcd(b, a % b);
 }
 
-/*
-int lcm(int a, int b) {
+int lcm(int a, int b){
+	return (a*b) / gcd(a,b);
 }
-*/
 
 int powermod(int base, int exp, int mod) {
     if (mod == 1) return 0;
@@ -25,7 +24,7 @@ int powermod(int base, int exp, int mod) {
 }
 
 int main() {
-    std::cout << "GCD: " << gcd(36,60) << '\n'; 
-    //std::cout << "LCM: " << lcm(12,30) << '\n';
-    std::cout << "PMOD: " << powermod(4, 13, 497) << '\n';
+    std::cout << "GCD: " << gcd(36,60) << std::endl; 
+    std::cout << "LCM: " << lcm(12,30) << std::endl;
+    std::cout << "PMOD: " << powermod(4, 13, 497) << std::endl;
 }

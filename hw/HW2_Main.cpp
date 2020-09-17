@@ -23,8 +23,12 @@ int powermod(int base, int exp, int mod) {
     return prod;
 }
 
-int main() {
-    std::cout << "GCD: " << gcd(36,60) << std::endl; 
-    std::cout << "LCM: " << lcm(12,30) << std::endl;
-    std::cout << "PMOD: " << powermod(4, 13, 497) << std::endl;
+int main(int argc, char *argv[]) {
+	int a = atoi(argv[1]), b = atoi(argv[2]), r = atoi(argv[3]);
+	
+    std::cout << "GCD: " << gcd(a,b) << std::endl; 
+    std::cout << "LCM: " << lcm(a,b) << std::endl;
+    std::cout << "PMOD: " << powermod(a, b, r) << std::endl;
+	
+	//example: ./a.out 4 13 497
 }

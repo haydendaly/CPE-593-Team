@@ -46,8 +46,28 @@ int * partialQuickSort(int arr[], int start, int end) {
 	return arr;
 }
 
+void merge(int arr[], int left, int mid, int right) {
+    int tempArr[right - left + 1];
+    int i = left, j = mid + 1, k = 0;
+
+    while(i <= mid || j <= right) {
+        if(i <= mid && (j > right || arr[i] <= arr[j]))
+            tempArr[k++] = arr[i++];
+        else
+            tempArr[k++] = arr[j++];
+    }
+
+    for (int k = 0; k <= right - left; k++) 
+        arr[left + k] = tempArr[k];
+    return;
+}
+
 int * mergeSort(int arr[], int left, int right) {
-	// Perform sort here
+    if (left >= right) return;
+    int mid = (left + right) / 2;
+    mergeSort(arr, left, mid);
+    mergeSort(arr, mid+1, right);
+    merge(arr, left, mid, right);
     return arr;
 }
 

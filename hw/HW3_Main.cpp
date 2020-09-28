@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <ctime>
 #include <sys/time.h>
+#include <math.h>	/* log10 */
 
 /*
 I pledge my honor I have abided by the Stevens Honor System.
@@ -63,7 +64,7 @@ void merge(int arr[], int left, int mid, int right) {
 }
 
 int * mergeSort(int arr[], int left, int right) {
-    if (left >= right) return;
+    if (left >= right) return arr;
     int mid = (left + right) / 2;
     mergeSort(arr, left, mid);
     mergeSort(arr, mid+1, right);
@@ -168,40 +169,66 @@ int main() {
 
 	/* Create large trial arrays */
 	int z, depth=1000000;
+	//int * knuthLarge, * heapLarge, * mergeLarge;
 	for (int j=0; j<3; j++) {
-	int knuthLarge[depth] = {}, heapLarge[depth] = {}, mergeLarge[depth] = {};
-	std::cout << "========== Array Length " << depth << " ==========" << std::endl;
+		int *knuthLarge = new int[depth];
+		int *mergeLarge = new int[depth];
+		int *heapLarge = new int[depth];
+		std::cout << "======== Array Length 10^" << log10(depth) << " ========" << std::endl;
 
-		for (int i=0; i<depth; i++) {
-			z = (std::rand() % depth); // generates random y within given range
-			knuthLarge[i]=z;
-			mergeLarge[i]=z;
-			heapLarge[i]=z;
-		}
+			for (int i=0; i<depth; i++) {
+				z = (std::rand() % depth); // generates random y within given range
+				knuthLarge[i]=z;
+				mergeLarge[i]=z;
+				heapLarge[i]=z;
+			}
 
-		/* Sort trial arrays */
-		clock_t k_time = clock();
-		partialQuickSort(knuthLarge, 0, range-1);
-		insertionSort(knuthLarge, range);
-		k_time = clock() - k_time;
-		std::cout << "Running time for Knuth Optimized Quick Sort: " << (float)k_time/CLOCKS_PER_SEC << " seconds" << std::endl;
-		std::cout << std::endl;
+			/* Sort trial arrays */
+			clock_t k_time = clock();
+			partialQuickSort(knuthLarge, 0, range-1);
+			insertionSort(knuthLarge, range);
+			k_time = clock() - k_time;
+			std::cout << "Running time for Knuth Optimized Quick Sort: " << (float)k_time/CLOCKS_PER_SEC << " seconds" << std::endl;
+			std::cout << std::endl;
 
-		clock_t m_time = clock();
-		mergeSort(mergeLarge, 0, range-1);
-		m_time = clock() - m_time;
-		std::cout << "Running time for Merge Sort: " << (float)m_time/CLOCKS_PER_SEC << " seconds" << std::endl;
-		std::cout << std::endl;
+			clock_t m_time = clock();
+			mergeSort(mergeLarge, 0, range-1);
+			m_time = clock() - m_time;
+			std::cout << "Running time for Merge Sort: " << (float)m_time/CLOCKS_PER_SEC << " seconds" << std::endl;
+			std::cout << std::endl;
 
-		clock_t h_time = clock();
-		heapSort(heapLarge, 0, range-1);
-		h_time = clock() - h_time;
-		std::cout << "Running time for Heap Sort: " << (float)h_time/CLOCKS_PER_SEC << " seconds" << std::endl;
-		std::cout << std::endl;
+			clock_t h_time = clock();
+			heapSort(heapLarge, 0, range-1);
+			h_time = clock() - h_time;
+			std::cout << "Running time for Heap Sort: " << (float)h_time/CLOCKS_PER_SEC << " seconds" << std::endl;
+			std::cout << std::endl;
 
-		depth *= 10; // increase depth by 10x
+			delete[] knuthLarge; // release memory for new array
+			delete[] heapLarge;
+			delete[] mergeLarge;
+
+			depth *= 10; // increase depth by 10x
 	}
 
-	/* Benchmark times */
-	//...
+	/* ---Benchmark times--- 
+	======== Array Length 10^6 ========
+	Running time for Knuth Optimized Quick Sort: 5e-06 seconds
+
+	Running time for Merge Sort: 8e-06 seconds
+
+	Running time for Heap Sort: **???????????????????** seconds  ***add this when head sort uploaded!***
+
+	======== Array Length 10^7 ========
+	Running time for Knuth Optimized Quick Sort: 4e-06 seconds
+
+	Running time for Merge Sort: 6e-06 seconds
+
+	Running time for Heap Sort: **!!???????????????????!!** seconds  ***add this when head sort uploaded!***
+
+	======== Array Length 10^8 ========
+	// **errors allocating 10^8 length arrays because of RAM constraints**
+	// . . .
+	// . . .
+	// . . .
+	*/
 }

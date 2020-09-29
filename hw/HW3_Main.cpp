@@ -72,9 +72,36 @@ int * mergeSort(int arr[], int left, int right) {
     return arr;
 }
 
-int * heapSort(int arr[], int left, int right) {
-	// Perform sort here
-    return arr;
+void makeSubHeap(int arr[], int n, int i) {
+	int max = i;  
+    
+    if (2*i + 1 < n && arr[2*i + 1] > arr[max])   // Left > root 
+        max = 2*i + 1; 
+  
+    if (2*i + 2 < n && arr[2*i + 2] > arr[max])  // Right > max 
+        max = 2*i + 2; 
+
+    if (max != i) {     // Max is not the root, proceed
+        std::swap(arr[i], arr[max]); 
+        makeSubHeap(arr, n, max); 
+    } 
+	return;
+}
+
+void buildHeap(int arr[], int n){ //Build initial heap
+	for (int i = n/2 - 1; i >= 0; i--) {
+		makeSubHeap(arr, n,i);
+	}
+	return;
+}
+
+int * heapSort(int arr[], int n ) { //Main 
+	buildHeap(arr,n);
+	for (int i = n-1; i >= 0; i--) {
+		std::swap(arr[0], arr[i]);
+		makeSubHeap(arr, i, 0);
+	}
+	return arr;
 }
 
 
@@ -125,7 +152,7 @@ int main() {
 		for (int i=0; i<range; i++) std::cout << heapTrial[i] << " ";
 		std::cout << std::endl;
 		std::cout << "Heap Sort" << std::endl;
-		heapSort(heapTrial, 0, range-1);
+		heapSort(heapTrial, range);
 		for (int i=0; i<range; i++) std::cout << heapTrial[i] << " ";
 		std::cout << std::endl;
 		std::cout << std::endl;
@@ -170,7 +197,7 @@ int main() {
 	std::cout << std::endl;
 
 	std::cout << "Heap Sort" << std::endl;
-	heapSort(heapArr, 0, length-1);
+	heapSort(heapArr,length);
 	for (int i=0; i<range; i++) std::cout << heapArr[i] << " ";
 	std::cout << std::endl;
 	//std::cout << "============================" << std::endl;
@@ -212,7 +239,7 @@ int main() {
 			std::cout << std::endl;
 
 			clock_t h_time = clock();
-			heapSort(heapLarge, 0, range-1);
+			heapSort(heapLarge, range);
 			h_time = clock() - h_time;
 			std::cout << "Running time for Heap Sort: " << (float)h_time/CLOCKS_PER_SEC << " seconds" << std::endl;
 			std::cout << std::endl;

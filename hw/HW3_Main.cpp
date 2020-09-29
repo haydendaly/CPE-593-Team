@@ -89,10 +89,13 @@ int main() {
 
 	/* Create trial arrays */
 	std::srand(std::time(0)); // initialize random number generator
-	int knuthTrial[range] = {}, heapTrial[range] = {}, mergeTrial[range] = {};
+	//int knuthTrial[range] = {}, heapTrial[range] = {}, mergeTrial[range] = {};
 	int x;
 	for (int j=0; j<arrCount; j++) {
-	std::cout << "========== Trial " << j+1 << " ==========" << std::endl;
+		int *knuthTrial = new int[range];
+		int *mergeTrial = new int[range];
+		int *heapTrial = new int[range];
+		std::cout << "========== Trial " << j+1 << " ==========" << std::endl;
 
 		for (int i=0; i<range; i++) {
 			x = (std::rand() % range); // generates random y within given range
@@ -102,37 +105,44 @@ int main() {
 		}
 
 		/* Sort trial arrays */
-		for (auto it : knuthTrial) std::cout << it << " ";
+		for (int i=0; i<range; i++) std::cout << knuthTrial[i] << " ";
 		std::cout << std::endl;
 		std::cout << "Knuth Optimized Quick Sort" << std::endl;
 		partialQuickSort(knuthTrial, 0, range-1);
 		insertionSort(knuthTrial, range);
-		for (auto it : knuthTrial) std::cout << it << " ";
+		for (int i=0; i<range; i++) std::cout << knuthTrial[i] << " ";
 		std::cout << std::endl;
 		std::cout << std::endl;
 
-		for (auto it : mergeTrial) std::cout << it << " ";
+		for (int i=0; i<range; i++) std::cout << mergeTrial[i] << " ";
 		std::cout << std::endl;
 		std::cout << "Merge Sort" << std::endl;
 		mergeSort(mergeTrial, 0, range-1);
-		for (auto it : mergeTrial) std::cout << it << " ";
+		for (int i=0; i<range; i++) std::cout << mergeTrial[i] << " ";
 		std::cout << std::endl;
 		std::cout << std::endl;
 
-		for (auto it : heapTrial) std::cout << it << " ";
+		for (int i=0; i<range; i++) std::cout << heapTrial[i] << " ";
 		std::cout << std::endl;
 		std::cout << "Heap Sort" << std::endl;
 		heapSort(heapTrial, 0, range-1);
-		for (auto it : heapTrial) std::cout << it << " ";
+		for (int i=0; i<range; i++) std::cout << heapTrial[i] << " ";
 		std::cout << std::endl;
 		std::cout << std::endl;
+
+		delete[] knuthTrial; // release memory for new array
+		delete[] heapTrial;
+		delete[] mergeTrial;
 	}
 
 
 	/* Read in the length and values of an array from stdin */
 	int length;
 	std::cin >> length;
-	int knuthArr[length] = {}, heapArr[length] = {}, mergeArr[length] = {};
+	//int knuthArr[length] = {}, heapArr[length] = {}, mergeArr[length] = {};
+	int *knuthArr = new int[length];
+	int *mergeArr = new int[length];
+	int *heapArr = new int[length];
 	int y;
 	for (int i=0; i<length; i++) {
 		std::cin >> y; // reads from input.txt
@@ -144,27 +154,31 @@ int main() {
 	/* Sort the array passed in via stdin */
 	std::cout << "============================" << std::endl;
 	std::cout << "Input Array" << std::endl;
-	for (auto it : knuthArr) std::cout << it << " ";
+	for (int i=0; i<range; i++) std::cout << knuthArr[i] << " ";
 	std::cout << std::endl;
 	std::cout << std::endl;
 
 	std::cout << "Knuth Optimized Quick Sort" << std::endl;
 	partialQuickSort(knuthArr, 0, length-1);
 	insertionSort(knuthArr, length);
-	for (auto it : knuthArr) std::cout << it << " ";
+	for (int i=0; i<range; i++) std::cout << knuthArr[i] << " ";
 	std::cout << std::endl;
 
 	std::cout << "Merge Sort" << std::endl;
 	mergeSort(mergeArr, 0, length-1);
-	for (auto it : mergeArr) std::cout << it << " ";
+	for (int i=0; i<range; i++) std::cout << mergeArr[i] << " ";
 	std::cout << std::endl;
 
 	std::cout << "Heap Sort" << std::endl;
 	heapSort(heapArr, 0, length-1);
-	for (auto it : heapArr) std::cout << it << " ";
+	for (int i=0; i<range; i++) std::cout << heapArr[i] << " ";
 	std::cout << std::endl;
 	//std::cout << "============================" << std::endl;
 	std::cout << std::endl;
+
+	delete[] knuthArr; // release memory for new array
+	delete[] heapArr;
+	delete[] mergeArr;
 
 
 	/* Create large trial arrays */

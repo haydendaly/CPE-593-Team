@@ -209,7 +209,7 @@ int main() {
 	delete[] mergeArr;
 
 	/* Create large trial arrays */
-	int z, depth=10000;
+	int z, depth=1000000;
 	//int * knuthLarge, * heapLarge, * mergeLarge;
 	for (int j=0; j<3; j++) {
 		int *knuthLarge = new int[depth];
@@ -276,11 +276,24 @@ int main() {
 		Running time for Heap Sort: 0.570798 seconds
 
 		======== Array Length 10^7 ========
-		Running time for Knuth Optimized Quick Sort: 2.63886 seconds
+		Running time for Knuth Optimized Quick Sort: 14.433 seconds
+
+		Running time for Merge Sort: 5.337 seconds
+
+		Running time for Heap Sort: 11.045 seconds
+
+		======== Array Length 10^8 ========
+		Running time for Knuth Optimized Quick Sort: 1563.25 seconds
+
+		Running time for Merge Sort: 57.778 seconds
+
+		Running time for Heap Sort: 143.152 seconds
+
+
+		** We are not 100% certain about the K value for the 
+		time incostency for the knuth optimized quicksort ** 
 
 
 
-		** Did not have enough RAM on free-teir digital ocean droplet for  **
-		** over 10^6 length array in heap and merge sort implementations    **
 	*/
 }

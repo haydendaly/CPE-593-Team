@@ -125,7 +125,7 @@ int main() {
 		std::cout << "========== Trial " << j+1 << " ==========" << std::endl;
 
 		for (int i=0; i<range; i++) {
-			x = (std::rand() % range); // generates random y within given range
+			x = (std::rand() % range); // generates random x within given range
 			knuthTrial[i]=x;
 			mergeTrial[i]=x;
 			heapTrial[i]=x;
@@ -181,24 +181,24 @@ int main() {
 	/* Sort the array passed in via stdin */
 	std::cout << "============================" << std::endl;
 	std::cout << "Input Array" << std::endl;
-	for (int i=0; i<range; i++) std::cout << knuthArr[i] << " ";
+	for (int i=0; i<length; i++) std::cout << knuthArr[i] << " ";
 	std::cout << std::endl;
 	std::cout << std::endl;
 
 	std::cout << "Knuth Optimized Quick Sort" << std::endl;
 	partialQuickSort(knuthArr, 0, length-1);
 	insertionSort(knuthArr, length);
-	for (int i=0; i<range; i++) std::cout << knuthArr[i] << " ";
+	for (int i=0; i<length; i++) std::cout << knuthArr[i] << " ";
 	std::cout << std::endl;
 
 	std::cout << "Merge Sort" << std::endl;
 	mergeSort(mergeArr, 0, length-1);
-	for (int i=0; i<range; i++) std::cout << mergeArr[i] << " ";
+	for (int i=0; i<length; i++) std::cout << mergeArr[i] << " ";
 	std::cout << std::endl;
 
 	std::cout << "Heap Sort" << std::endl;
 	heapSort(heapArr,length);
-	for (int i=0; i<range; i++) std::cout << heapArr[i] << " ";
+	for (int i=0; i<length; i++) std::cout << heapArr[i] << " ";
 	std::cout << std::endl;
 	//std::cout << "============================" << std::endl;
 	std::cout << std::endl;
@@ -207,9 +207,8 @@ int main() {
 	delete[] heapArr;
 	delete[] mergeArr;
 
-
 	/* Create large trial arrays */
-	int z, depth=1000000;
+	int z, depth=10000;
 	//int * knuthLarge, * heapLarge, * mergeLarge;
 	for (int j=0; j<3; j++) {
 		int *knuthLarge = new int[depth];
@@ -218,7 +217,7 @@ int main() {
 		std::cout << "======== Array Length 10^" << log10(depth) << " ========" << std::endl;
 
 			for (int i=0; i<depth; i++) {
-				z = (std::rand() % depth); // generates random y within given range
+				z = (std::rand() % depth); // generates random z within given range
 				knuthLarge[i]=z;
 				mergeLarge[i]=z;
 				heapLarge[i]=z;
@@ -226,20 +225,20 @@ int main() {
 
 			/* Sort trial arrays */
 			clock_t k_time = clock();
-			partialQuickSort(knuthLarge, 0, range-1);
-			insertionSort(knuthLarge, range);
+			partialQuickSort(knuthLarge, 0, depth-1);
+			insertionSort(knuthLarge, depth);
 			k_time = clock() - k_time;
 			std::cout << "Running time for Knuth Optimized Quick Sort: " << (float)k_time/CLOCKS_PER_SEC << " seconds" << std::endl;
 			std::cout << std::endl;
 
 			clock_t m_time = clock();
-			mergeSort(mergeLarge, 0, range-1);
+			mergeSort(mergeLarge, 0, depth-1);
 			m_time = clock() - m_time;
 			std::cout << "Running time for Merge Sort: " << (float)m_time/CLOCKS_PER_SEC << " seconds" << std::endl;
 			std::cout << std::endl;
 
 			clock_t h_time = clock();
-			heapSort(heapLarge, range);
+			heapSort(heapLarge, depth);
 			h_time = clock() - h_time;
 			std::cout << "Running time for Heap Sort: " << (float)h_time/CLOCKS_PER_SEC << " seconds" << std::endl;
 			std::cout << std::endl;
@@ -251,25 +250,36 @@ int main() {
 			depth *= 10; // increase depth by 10x
 	}
 
-	/* ---Benchmark times--- 
-	======== Array Length 10^6 ========
-	Running time for Knuth Optimized Quick Sort: 5e-06 seconds
+	/*
+				---Benchmark times---
 
-	Running time for Merge Sort: 8e-06 seconds
+		======== Array Length 10^4 ========
+		Running time for Knuth Optimized Quick Sort: 0.001582 seconds
 
-	Running time for Heap Sort: **???????????????????** seconds  ***add this when head sort uploaded!***
+		Running time for Merge Sort: 0.001813 seconds
 
-	======== Array Length 10^7 ========
-	Running time for Knuth Optimized Quick Sort: 4e-06 seconds
+		Running time for Heap Sort: 0.003271 seconds
 
-	Running time for Merge Sort: 6e-06 seconds
+		======== Array Length 10^5 ========
+		Running time for Knuth Optimized Quick Sort: 0.018639 seconds
 
-	Running time for Heap Sort: **!!???????????????????!!** seconds  ***add this when head sort uploaded!***
+		Running time for Merge Sort: 0.022024 seconds
 
-	======== Array Length 10^8 ========
-	// **errors allocating 10^8 length arrays because of RAM constraints**
-	// . . .
-	// . . .
-	// . . .
+		Running time for Heap Sort: 0.040634 seconds
+
+		======== Array Length 10^6 ========
+		Running time for Knuth Optimized Quick Sort: 0.223422 seconds
+
+		Running time for Merge Sort: 0.26019 seconds
+
+		Running time for Heap Sort: 0.570798 seconds
+
+		======== Array Length 10^7 ========
+		Running time for Knuth Optimized Quick Sort: 2.63886 seconds
+
+
+
+		** Did not have enough RAM on free-teir digital ocean droplet for  **
+		** over 10^6 length array in heap and merge sort implementations    **
 	*/
 }

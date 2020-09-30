@@ -6,7 +6,7 @@ I pledge my honor I have abided by the Stevens Honor System.
 */
 
 void merge(int arr[], int left, int mid, int right) {
-    int tempArr[right - left + 1];
+    int *tempArr = new int[right - left + 1];
     int i = left, j = mid + 1, k = 0;
 
     while(i <= mid || j <= right) {
@@ -18,6 +18,7 @@ void merge(int arr[], int left, int mid, int right) {
 
     for (int k = 0; k <= right - left; k++) 
         arr[left + k] = tempArr[k];
+    delete[] tempArr;
     return;
 }
 

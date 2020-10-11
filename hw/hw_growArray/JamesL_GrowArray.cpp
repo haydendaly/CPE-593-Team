@@ -83,18 +83,47 @@ class BadGrowArray {
 		void removeEnd(int a) {
 			std::cout << "Remove from end " << a << std::endl;
 
+			for(int n=0; n<a; n++) {
+				int* old = data;
+				capacity--;
+				data = new int[capacity];
+
+				//memcpy(&data[0], &old[0], capacity);
+				for (int i=0; i<capacity; i++) //O(n)
+					data[i] = old[i];
+
+				delete [] old;
+			}
 		}
 
 		void removeStart(int b) {
 			std::cout << "Remove from start " << b << std::endl;
+
+			for(int n=0; n<b; n++) {
+				int* old = data;
+				capacity--;
+				data = new int[capacity];
+
+				//memcpy(&data[0], &old[1], capacity);
+				for (int i=0; i<capacity; i++) //O(n)
+					data[i] = old[i+1];
+
+				delete [] old;
+			}
 		}
 
-		void printSum() {
+		void printSum() { // O(n)
 			int sum = 0;
-			std::cout << "Sum: " << sum << std::endl;
+			for (int i=0; i<capacity; i++) // O(n)
+				sum += data[i];
 
-			for (int i=0; i<capacity; i++)
+			std::cout << "Sum: " << sum << std::endl;
+		}
+
+		void viewArray() { // O(n)
+			for (int i=0; i<capacity; i++) // O(n)
 				std::cout << data[i] << " ";
+			std::cout << std::endl;
 		}
 
 };
@@ -111,10 +140,20 @@ int main(int argc, char *argv[]) {
 
 	/* run specified functions */
 	modifiableArray.addEnd(A);
+	modifiableArray.viewArray();
+
 	modifiableArray.addStart(B);
+	modifiableArray.viewArray();
+
 	modifiableArray.insert(B, C);
+	modifiableArray.viewArray();
+
 	modifiableArray.removeEnd(A);
+	modifiableArray.viewArray();
+
 	modifiableArray.removeStart(B);
-	modifiableArray.printSum(); // !!!!!!!!!!!!!!!!!!!!!!!
+	modifiableArray.viewArray();
+
+	modifiableArray.printSum();
 
 }

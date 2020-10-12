@@ -5,23 +5,35 @@
 
 class BadGrowArray {
 
-	private:
+	public:
 		int* data;
 		int used; // if used == capacity --> grow
 		int capacity;
 
-	public:
-		
-		BadGrowArray() {
+		void grow() {
+			/* grow the capacity by doubling */
 
-			/* initialize empty list (not preallocated) */
-			this->data = nullptr;
-			this->used = 0;
-			this->capacity = 0;
+			//if(capacity < 100) { // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				int* old = data;
+
+				capacity *= 2;
+				data = new int[capacity];
+
+				for (int i=0; i<used; i++) //O(n)
+					data[i] = old[i];
+			//}
 		}
 
-		~BadGrowArray() {
+		BadGrowArray() {
+			/* initialize empty list (not preallocated) */
+			data = new int[1];
+			used = 0;
+			capacity = 1;
+		}
 
+
+
+		~BadGrowArray() {
 			/* release memory when object is out of scope */
 			delete [] data;
 		}
@@ -31,16 +43,37 @@ class BadGrowArray {
 
 			for(int v=1; v<=a; v++) {
 				int* old = data;
-				data = new int[capacity + 1];
+				
+				/*
+				for (int i=0; i<used; i++) // O(n)
+					std::cout << old[i] << " ";
+				std::cout << std::endl;
+				*/
+				
+				if(1) {
+					std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
+					grow();
+				}
 
-				//memcpy(&data[0], &old[0], capacity);
-				for (int i=0; i<capacity; i++) //O(n)
+				for (int i=0; i<used; i++) //O(n)
 					data[i] = old[i];
 				
-				data[capacity] = v;
+				/*
+				for (int i=0; i<used; i++) // O(n)
+					std::cout << data[i] << " ";
+				std::cout << std::endl;				
+				*/
+
+				data[used] = v;
 				delete [] old;
-				capacity++;
+				used++;
 			}
+
+			/*
+				for (int i=0; i<used; i++) // O(n)
+					std::cout << data[i] << " ";
+				std::cout << std::endl;
+			*/
 		}
 
 		void addStart(int b) {
@@ -48,15 +81,18 @@ class BadGrowArray {
 
 			for(int v=b; v>0; v--) {
 				int* old = data;
-				data = new int[capacity + 1];
 
-				//memcpy(&data[1], &old[0], capacity);
-				for (int i=0; i<capacity; i++) //O(n)
+				if(1) {
+					std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
+					grow();
+				}
+
+				for (int i=0; i<used; i++) //O(n)
 					data[i+1] = old[i];
 				
 				data[0] = v;
 				delete [] old;
-				capacity++;
+				used++;
 			}
 		}
 
@@ -65,18 +101,20 @@ class BadGrowArray {
 
 			for(int v=b; v>0; v--) {
 				int* old = data;
-				data = new int[capacity + 1];
+				
+				if(1) {
+					std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
+					grow();
+				}
 
-				//memcpy(&data[0], &old[0], c-1);
-				//memcpy(&data[c+1], &old[c], capacity-c)
 				for(int i=0; i<c; i++)
 					data[i] = old[i];
-				for(int i=c; i<capacity; i++)
+				for(int i=c; i<used; i++)
 					data[i+1] = old[i];
 
 				data[c] = v;
 				delete [] old;
-				capacity++;
+				used++;
 			}
 		}
 
@@ -86,10 +124,11 @@ class BadGrowArray {
 			for(int n=0; n<a; n++) {
 				int* old = data;
 				capacity--;
+				used--;
 				data = new int[capacity];
 
-				//memcpy(&data[0], &old[0], capacity);
-				for (int i=0; i<capacity; i++) //O(n)
+				//memcpy(&data[0], &old[0], used);
+				for (int i=0; i<used; i++) //O(n)
 					data[i] = old[i];
 
 				delete [] old;
@@ -102,10 +141,11 @@ class BadGrowArray {
 			for(int n=0; n<b; n++) {
 				int* old = data;
 				capacity--;
+				used--;
 				data = new int[capacity];
 
-				//memcpy(&data[0], &old[1], capacity);
-				for (int i=0; i<capacity; i++) //O(n)
+				//memcpy(&data[0], &old[1], used);
+				for (int i=0; i<used; i++) //O(n)
 					data[i] = old[i+1];
 
 				delete [] old;
@@ -114,14 +154,17 @@ class BadGrowArray {
 
 		void printSum() { // O(n)
 			int sum = 0;
-			for (int i=0; i<capacity; i++) // O(n)
+			for (int i=0; i<used; i++) // O(n)
 				sum += data[i];
 
 			std::cout << "Sum: " << sum << std::endl;
 		}
 
 		void viewArray() { // O(n)
-			for (int i=0; i<capacity; i++) // O(n)
+			//std::cout << std::endl;
+			//std::cout << "used: " << used << "  capacity: " << capacity << "  ";
+
+			for (int i=0; i<used; i++) // O(n)
 				std::cout << data[i] << " ";
 			std::cout << std::endl;
 		}
@@ -155,5 +198,4 @@ int main(int argc, char *argv[]) {
 	modifiableArray.viewArray();
 
 	modifiableArray.printSum();
-
 }

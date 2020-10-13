@@ -2,146 +2,166 @@
 
 #include<iostream>
 #include<cstring>
-#include<cmath>
 
-class BadGrowArray {
+class GrowArray {
 
-	public:
+	private:
+
 		int* data;
-		int used; // if used == capacity --> grow
+		int used;
 		int capacity;
 
-		void grow() {
-			/* grow the capacity by doubling */
-			std::cout << "double" << std::endl;
+		void grow() { // O(n)
+			//std::cout << "grow" << std::endl;
 			capacity *= 2;
 			data = new int[capacity];
 		}
 
-		BadGrowArray() {
-			/* initialize empty list (not preallocated) */
+
+	public:
+
+		GrowArray() { // O(1)
 			data = new int[1];
 			used = 0;
 			capacity = 1;
 		}
 
-
-
-		~BadGrowArray() {
-			/* release memory when object is out of scope */
+		~GrowArray() { // O(1)
 			delete [] data;
 		}
 
-		void addEnd(int a) {
+		void addEnd(int a) { // O(1)
 			std::cout << "Add to end 1 - " << a << std::endl;
 
 			for(int v=1; v<=a; v++) {
-				int* old = data;
-				
-				if(used+1==capacity) {
-					std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
+
+				if(used==capacity) {
+					int* old = data;
 					grow();
+
+					for (int i=0; i<used; i++) {
+						data[i] = old[i];
+					}
+
+					delete [] old;
 				}
 
-				for (int i=0; i<used; i++) //O(n)
-					data[i] = old[i];
-
 				data[used] = v;
-				delete [] old;
 				used++;
+
+				//std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
+				//printArray();
 			}
 		}
 
-		void addStart(int b) {
+		void addStart(int b) { // O(n)
 			std::cout << "Add to start 1 - " << b << std::endl;
 
 			for(int v=b; v>0; v--) {
+
 				int* old = data;
 
-				if(used+1==capacity) {
-					std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
+				if(used==capacity) {
 					grow();
 				}
+				else{ data = new int[capacity]; } // bug fix for failure to copy old into data. still unsure why.
 				
-				for (int i=0; i<used; i++) //O(n)
+				for (int i=0; i<used; i++) {
 					data[i+1] = old[i];
+				}
 				
 				data[0] = v;
 				delete [] old;
 				used++;
+
+				//std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
+				//printArray();
 			}
 		}
 
-		void insert(int b, int c) {
+		void insert(int b, int c) { // O(n)
 			std::cout << "Insert 1 - " << b << " at " << c << std::endl;
 
 			for(int v=b; v>0; v--) {
+
 				int* old = data;
 				
-				if(used+1==capacity) {
-					std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
+				if(used==capacity) {
 					grow();
 				}
+				else{ data = new int[capacity]; } // bug fix for failure to copy old into data. still unsure why.
 
-				for(int i=0; i<c; i++)
+				for(int i=0; i<c; i++) {
 					data[i] = old[i];
-				for(int i=c; i<used; i++)
+				}
+				for(int i=c; i<used; i++) {
 					data[i+1] = old[i];
+				}
 
 				data[c] = v;
 				delete [] old;
 				used++;
+
+				//std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
+				//printArray();
 			}
 		}
 
-		void removeEnd(int a) {
+		void removeEnd(int a) { // O(1)
 			std::cout << "Remove from end " << a << std::endl;
 
 			for(int n=0; n<a; n++) {
+
 				int* old = data;
 				capacity--;
 				used--;
 				data = new int[capacity];
 
-				//memcpy(&data[0], &old[0], used);
-				for (int i=0; i<used; i++) //O(n)
+				for (int i=0; i<used; i++){
 					data[i] = old[i];
+				}
 
 				delete [] old;
+
+				//std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
 			}
 		}
 
-		void removeStart(int b) {
+		void removeStart(int b) { // O(n)
 			std::cout << "Remove from start " << b << std::endl;
 
 			for(int n=0; n<b; n++) {
+
 				int* old = data;
 				capacity--;
 				used--;
 				data = new int[capacity];
 
-				//memcpy(&data[0], &old[1], used);
-				for (int i=0; i<used; i++) //O(n)
+				for (int i=0; i<used; i++) {
 					data[i] = old[i+1];
+				}
 
 				delete [] old;
+
+				//std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
 			}
 		}
 
 		void printSum() { // O(n)
 			int sum = 0;
-			for (int i=0; i<used; i++) // O(n)
+			for (int i=0; i<used; i++) {
 				sum += data[i];
+			}
 
 			std::cout << "Sum: " << sum << std::endl;
 		}
 
-		void viewArray() { // O(n)
-			for (int i=0; i<used; i++) // O(n)
+		void printArray() {
+			for (int i=0; i<used; i++) {
 				std::cout << data[i] << " ";
+			}
 			std::cout << std::endl;
 		}
-
 };
 
 
@@ -152,23 +172,23 @@ int main(int argc, char *argv[]) {
 	int C = atoi(argv[3]);
 
 	/* create GrowArray object */
-	BadGrowArray modifiableArray;
+	GrowArray modifiableArray;
 
 	/* run specified functions */
 	modifiableArray.addEnd(A);
-	modifiableArray.viewArray();
+	//modifiableArray.printArray();
 
 	modifiableArray.addStart(B);
-	modifiableArray.viewArray();
+	//modifiableArray.printArray();
 
 	modifiableArray.insert(B, C);
-	modifiableArray.viewArray();
+	//modifiableArray.printArray();
 
 	modifiableArray.removeEnd(A);
-	modifiableArray.viewArray();
+	//modifiableArray.printArray();
 
 	modifiableArray.removeStart(B);
-	modifiableArray.viewArray();
+	//modifiableArray.printArray();
 
 	modifiableArray.printSum();
 }

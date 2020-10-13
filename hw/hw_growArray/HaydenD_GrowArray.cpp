@@ -42,7 +42,7 @@ class GrowArray {
 			int* temp = data;
 			if (amount + b > capacity) grow(b);
 			for (int i = 0; i < c; ++i) data[i] = temp[i];
-			for (int i = c; c < b + c; ++i) data[i] = b++;
+			for (int i = c; i < b + c; ++i) data[i] = b++;
 			for (int i = c + b; i < amount; ++i) data[i] = temp[i - b];
 			amount += b;
 		}

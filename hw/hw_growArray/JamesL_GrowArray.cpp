@@ -2,6 +2,7 @@
 
 #include<iostream>
 #include<cstring>
+#include<cmath>
 
 class BadGrowArray {
 
@@ -12,16 +13,9 @@ class BadGrowArray {
 
 		void grow() {
 			/* grow the capacity by doubling */
-
-			//if(capacity < 100) { // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				int* old = data;
-
-				capacity *= 2;
-				data = new int[capacity];
-
-				for (int i=0; i<used; i++) //O(n)
-					data[i] = old[i];
-			//}
+			std::cout << "double" << std::endl;
+			capacity *= 2;
+			data = new int[capacity];
 		}
 
 		BadGrowArray() {
@@ -44,36 +38,18 @@ class BadGrowArray {
 			for(int v=1; v<=a; v++) {
 				int* old = data;
 				
-				/*
-				for (int i=0; i<used; i++) // O(n)
-					std::cout << old[i] << " ";
-				std::cout << std::endl;
-				*/
-				
-				if(1) {
+				if(used+1==capacity) {
 					std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
 					grow();
 				}
 
 				for (int i=0; i<used; i++) //O(n)
 					data[i] = old[i];
-				
-				/*
-				for (int i=0; i<used; i++) // O(n)
-					std::cout << data[i] << " ";
-				std::cout << std::endl;				
-				*/
 
 				data[used] = v;
 				delete [] old;
 				used++;
 			}
-
-			/*
-				for (int i=0; i<used; i++) // O(n)
-					std::cout << data[i] << " ";
-				std::cout << std::endl;
-			*/
 		}
 
 		void addStart(int b) {
@@ -82,11 +58,11 @@ class BadGrowArray {
 			for(int v=b; v>0; v--) {
 				int* old = data;
 
-				if(1) {
+				if(used+1==capacity) {
 					std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
 					grow();
 				}
-
+				
 				for (int i=0; i<used; i++) //O(n)
 					data[i+1] = old[i];
 				
@@ -102,7 +78,7 @@ class BadGrowArray {
 			for(int v=b; v>0; v--) {
 				int* old = data;
 				
-				if(1) {
+				if(used+1==capacity) {
 					std::cout << "used: " << used << "  capacity: " << capacity << std::endl;
 					grow();
 				}
@@ -161,9 +137,6 @@ class BadGrowArray {
 		}
 
 		void viewArray() { // O(n)
-			//std::cout << std::endl;
-			//std::cout << "used: " << used << "  capacity: " << capacity << "  ";
-
 			for (int i=0; i<used; i++) // O(n)
 				std::cout << data[i] << " ";
 			std::cout << std::endl;

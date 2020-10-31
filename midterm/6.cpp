@@ -1,5 +1,42 @@
 /* I pledge my Honor that I have abided by the Stevens Honor System. James Lawrence. */
 
+
+/*
+*****************PSEUDOCODE********************
+
+
+
+totalArea = 0;
+intersections = 0;
+
+getArea(rectangle){
+	return(left-right * top-bottom);
+}
+
+intersectionArea(rectangle){
+	return(totalArea+areaN-intersectionLength);
+}
+
+int main() {
+	while(cin >> x >> y >> w >> h);
+	rectangle=[x,y,w,h];
+
+	if(totalArea=0) {
+		totalArea=getArea(rectangle);
+	}
+	else{
+		areaN=getArea(rectangle);
+		Iarea=intersectionArea(totalArea, areaN);
+
+		if(areaN != Iarea)
+			intersections++;
+
+		totalArea=Iarea;
+	}
+
+}
+*/
+
 #include<iostream>
 #include<stdlib.h>
 #include <bits/stdc++.h>
@@ -9,11 +46,11 @@ struct Point {
 };
 
 Point getTopLeft(int arr[4]){
-	return {arr[0], arr[1]};
+	return {arr[0], -arr[1]};
 }
 
 Point getBottomRight(int arr[4]){
-	return {arr[0]+arr[2], arr[1]+arr[3]};
+	return {arr[0]+arr[2], -arr[1]-arr[3]};
 }
 
 bool doesOverlap(Point r1_top_left, Point r1_bottom_right, Point r2_top_left, Point r2_bottom_right)
@@ -27,8 +64,8 @@ bool doesOverlap(Point r1_top_left, Point r1_bottom_right, Point r2_top_left, Po
     std::cout << area2 << std::endl;
  
     // Intersection length
-    int Iarea = (std::min(r1_bottom_right.x, r2_bottom_right.x)-1 - std::max(r1_top_left.x, r2_top_left.x))
-                * (std::max(r1_bottom_right.y, r2_bottom_right.y)-1 - std::min(r1_top_left.y, r2_top_left.y));
+    int Iarea = (std::min(r1_bottom_right.x, r2_bottom_right.x) - std::max(r1_top_left.x, r2_top_left.x))
+                * (std::max(r1_bottom_right.y, r2_bottom_right.y) - std::min(r1_top_left.y, r2_top_left.y));
     std::cout << Iarea << std::endl;
  
     int overlapArea = area1 + area2 - Iarea;

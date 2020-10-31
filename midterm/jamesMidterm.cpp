@@ -9,40 +9,27 @@ struct Point {
 };
 
 Point getTopLeft(int arr[4]){
-	return {arr[0], -arr[1]};
+	return {arr[0], arr[1]};
 }
 
 Point getBottomRight(int arr[4]){
-	return {arr[0]+arr[2], -arr[1]-arr[3]};
+	return {arr[0]+arr[2], arr[1]+arr[3]};
 }
-
-/*
-bool doesOverlap(Point r1_top_left, Point r1_bottom_right, Point r2_top_left, Point r2_bottom_right) {
-	// check left
-	if (r1_top_left.x >= r2_bottom_right.x || r2_top_left.x >= r1_bottom_right.x)
-		return false;
-
-	// check above
-	if (r1_top_left.y <= r2_bottom_right.y || r2_top_left.y <= r1_bottom_right.y)
-		return false;
-
-	return true;
-}
-*/
 
 bool doesOverlap(Point r1_top_left, Point r1_bottom_right, Point r2_top_left, Point r2_bottom_right)
 {
-    // Area of Rectangle 1
+    // Rectangle 1 area
     int area1 = std::abs(r1_top_left.x - r1_bottom_right.x) * std::abs(r1_top_left.y - r1_bottom_right.y);
     std::cout << area1 << std::endl;
  
-    // Area of Rectangle 2
+    // Rectangle 2 area
     int area2 = std::abs(r2_top_left.x - r2_bottom_right.x) * std::abs(r2_top_left.y - r2_bottom_right.y);
     std::cout << area2 << std::endl;
  
-    // Length of intersection
-    int Iarea = (std::min(r1_bottom_right.x, r2_bottom_right.x) - std::max(r1_top_left.x, r2_top_left.x))
-                * (std::min(std::abs(r1_bottom_right.y), std::abs(r2_bottom_right.y)) - std::max(std::abs(r1_top_left.y), std::abs(r2_top_left.y)));
+    // Intersection length
+    int Iarea = (std::min(r1_bottom_right.x, r2_bottom_right.x)-1 - std::max(r1_top_left.x, r2_top_left.x))
+                * (std::max(r1_bottom_right.y, r2_bottom_right.y)-1 - std::min(r1_top_left.y, r2_top_left.y));
+    std::cout << Iarea << std::endl;
  
     int overlapArea = area1 + area2 - Iarea;
     std::cout << overlapArea << std::endl;
@@ -62,7 +49,10 @@ int main(int argc, char *argv[]) {
 
     Point r1_top_left = getTopLeft(rA), r1_bottom_right = getBottomRight(rA);
     Point r2_top_left = getTopLeft(rD), r2_bottom_right = getBottomRight(rD);
-    
+    //Point r2_top_left = getTopLeft(rC), r2_bottom_right = getBottomRight(rC);
+    //Point r1_top_left = { 2, -2 }, r1_bottom_right = { 5, -7 };
+    //Point r2_top_left = { 3, -4 }, r2_bottom_right = { 6, -9 };
+
     std::cout << r1_top_left.x << std::endl;
     std::cout << r1_top_left.y << std::endl << std::endl;
     std::cout << r1_bottom_right.x << std::endl;
@@ -71,6 +61,7 @@ int main(int argc, char *argv[]) {
     std::cout << r2_top_left.y << std::endl << std::endl;
     std::cout << r2_bottom_right.x << std::endl;
     std::cout << r2_bottom_right.y << std::endl << std::endl;
+
 
     if (doesOverlap(r1_top_left, r1_bottom_right, r2_top_left, r2_bottom_right)) 
         std::cout << "Rectangles Do Overlap" << std::endl;

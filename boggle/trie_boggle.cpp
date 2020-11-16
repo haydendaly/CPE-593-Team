@@ -65,6 +65,27 @@ bool contains(Trie* head, char* str)
 	return current->isLeaf;
 }
 
+bool containsPrefix(Trie* head, char* str)
+{
+	if (head == nullptr) { // empty Trie
+		return false;
+	}
+
+	Trie* current = head;
+	while (*str) {
+		current = current->myTrie[*str]; // next node
+
+		if (current == nullptr) {// end of path in Trie
+			return false;
+		}
+
+		str++; // next character
+	}
+
+	// some word in Trie starts with given prefix
+	return true;
+}
+
 int main()
 {
 	Trie* head = nullptr;
@@ -81,16 +102,24 @@ int main()
 		}
 	}
 	
-	/*
-	cout << contains(head, "hello") << " ";   			// print 1
-	cout << contains(head, "helloOO") << " \n";   		// print 0
-	cout << contains(head, "snap") << " ";   			// print 1
-	cout << contains(head, "bat") << " \n";   			// print 1
-	cout << contains(head, "xylophone") << " ";   		// print 1
-	cout << contains(head, "xylophoneZZ") << " \n";   	// print 0
-	cout << contains(head, "apple") << " ";		   		// print 1
+	cout << contains(head, "hello") << " ";   				// print 1
+	cout << contains(head, "helloOO") << " \n";   			// print 0
+	cout << contains(head, "snap") << " ";   				// print 1
+	cout << contains(head, "snappers") << " \n";   			// print 0
+	cout << contains(head, "xylophone") << " ";   			// print 1
+	cout << contains(head, "xylophoneZZ") << " \n";   		// print 0
+	cout << contains(head, "apple") << " ";		   			// print 1
 	cout << contains(head, "appleOrange") << " \n";   		// print 0
-	*/
+
+	cout << contains(head, "hel") << " ";   						// print 0
+	cout << containsPrefix(head, "hel") << " \n";   				// print 1
+	cout << contains(head, "sna") << " ";   						// print 0
+	cout << containsPrefix(head, "sna") << " \n";   				// print 1
+	cout << contains(head, "xylop") << " ";   						// print 0
+	cout << containsPrefix(head, "xylop") << " \n";   				// print 1
+	cout << contains(head, "appl") << " ";		   					// print 0
+	cout << containsPrefix(head, "appl") << " \n";   				// print 1
+	
 
 	std::freopen("./boggle.dat", "r", stdin); // read from input.txt
 	int size;

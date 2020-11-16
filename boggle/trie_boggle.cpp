@@ -89,5 +89,27 @@ int main()
 	cout << contains(head, "apple") << " ";		   		// print 1
 	cout << contains(head, "appleOrange") << " \n";   		// print 0
 
+
+	std::freopen("./boggle.dat", "r", stdin); // read from input.txt
+	int size;
+	std::cin >> size;
+	char c;
+	char inputArray[size][size];
+
+	for (int i=0; i<size; i++) {
+		for (int j=0; j<size; j++) {
+			std::cin >> c; // reads from boggle.dat
+			inputArray[i][j]=c;
+		}
+	}
+
+	for (int i=0; i<size; i++) {
+		for (int j=0; j<size; j++) {
+			std::cout << inputArray[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+
 	return 0;
 }

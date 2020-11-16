@@ -2,6 +2,7 @@
 #include <fstream>
 #include <functional>
 #include <string>
+#include <utility>      // std::pair
 #include <bits/stdc++.h>
 #include <unordered_map>
 
@@ -11,7 +12,7 @@ using namespace std;
 struct Trie
 {
 	bool isLeaf;
-	unordered_map<char, Trie*> map;
+	unordered_map<char, Trie*> myTrie;
 };
 
 Trie* newNode()
@@ -31,11 +32,11 @@ void add(Trie*& head, char* str)
 	Trie* current = head;
 	while (*str)
 	{
-		if (current->map.find(*str) == current->map.end()) { // create new node if path doesn't exist
-			current->map[*str] = newNode();
+		if (current->myTrie.find(*str) == current->myTrie.end()) { // create new node if path doesn't exist
+			current->myTrie[*str] = newNode();
 		}
 
-		current = current->map[*str]; // next node
+		current = current->myTrie[*str]; // next node
 
 		str++; // next character
 	}
@@ -51,7 +52,7 @@ bool contains(Trie* head, char* str)
 
 	Trie* current = head;
 	while (*str) {
-		current = current->map[*str]; // next node
+		current = current->myTrie[*str]; // next node
 
 		if (current == nullptr) {// end of path in Trie
 			return false;
@@ -80,6 +81,7 @@ int main()
 		}
 	}
 	
+	/*
 	cout << contains(head, "hello") << " ";   			// print 1
 	cout << contains(head, "helloOO") << " \n";   		// print 0
 	cout << contains(head, "snap") << " ";   			// print 1
@@ -88,24 +90,24 @@ int main()
 	cout << contains(head, "xylophoneZZ") << " \n";   	// print 0
 	cout << contains(head, "apple") << " ";		   		// print 1
 	cout << contains(head, "appleOrange") << " \n";   		// print 0
-
+	*/
 
 	std::freopen("./boggle.dat", "r", stdin); // read from input.txt
 	int size;
 	std::cin >> size;
 	char c;
-	char inputArray[size][size];
+	pair<char, bool> inputArray[size][size];
 
 	for (int i=0; i<size; i++) {
 		for (int j=0; j<size; j++) {
 			std::cin >> c; // reads from boggle.dat
-			inputArray[i][j]=c;
+			inputArray[i][j]=make_pair(c, false);
 		}
 	}
 
 	for (int i=0; i<size; i++) {
 		for (int j=0; j<size; j++) {
-			std::cout << inputArray[i][j] << " ";
+			std::cout << "(" << inputArray[i][j].first << "," << inputArray[i][j].second << ") ";
 		}
 		std::cout << std::endl;
 	}

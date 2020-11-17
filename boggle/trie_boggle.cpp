@@ -86,6 +86,22 @@ bool containsPrefix(Trie* head, char* str)
 	return true;
 }
 
+bool findWords(pair<char, bool> inputArray[][*int], Trie* head, char* str)
+{
+	/*
+	if (contains(head, str)) {
+		cout << str << endl;
+		// mark off letters as used
+	}
+	else if (containsPrefix(head, str)) {
+		// try surrounding locations from input array
+		findWords()
+		// mark off letters as used
+	}
+	*/
+	cout << str << endl;
+}
+
 int main()
 {
 	Trie* head = nullptr;
@@ -102,6 +118,7 @@ int main()
 		}
 	}
 	
+	/*
 	cout << contains(head, "hello") << " ";   				// print 1
 	cout << contains(head, "helloOO") << " \n";   			// print 0
 	cout << contains(head, "snap") << " ";   				// print 1
@@ -119,14 +136,14 @@ int main()
 	cout << containsPrefix(head, "xylop") << " \n";   				// print 1
 	cout << contains(head, "appl") << " ";		   					// print 0
 	cout << containsPrefix(head, "appl") << " \n";   				// print 1
-	
+	*/
 
 	std::freopen("./boggle.dat", "r", stdin); // read from input.txt
 	int size;
 	std::cin >> size;
 	char c;
 	pair<char, bool> inputArray[size][size];
-
+	/*
 	for (int i=0; i<size; i++) {
 		for (int j=0; j<size; j++) {
 			std::cin >> c; // reads from boggle.dat
@@ -139,6 +156,13 @@ int main()
 			std::cout << "(" << inputArray[i][j].first << "," << inputArray[i][j].second << ") ";
 		}
 		std::cout << std::endl;
+	}
+	*/
+
+	for (int i=0; i<size; i++) {
+		for (int j=0; j<size; j++) {
+			findWords(inputArray, head, inputArray[i][j].first);
+		}
 	}
 
 

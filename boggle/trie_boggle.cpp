@@ -23,6 +23,16 @@ Trie* newNode()
 	return node;
 }
 
+void traverse(pair<char, bool> inputArray[][4], int M, int N) {
+	for (int i=0; i<M; i++) {
+		for (int j=0; j<N; j++) {
+			std::cout << "(" << inputArray[i][j].first << "," << inputArray[i][j].second << ") ";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+}
+
 void add(Trie*& head, char* str)
 {
 	if (head == nullptr) {
@@ -86,30 +96,36 @@ bool containsPrefix(Trie* head, char* str)
 	return true;
 }
 
-bool findWords(pair<char, bool> inputArray[][*int], Trie* head, char* str, int x, int y, int m)
+void findWords(pair<char, bool> inputArray[][4], Trie* head, char* str, int x, int y, int M, int N)
 {
-	/*
-	if (x >= 0 && x < maxX && y >= 0 && y < maxY && inputArray[x][y] hasn't been used) {
-		str.push_back(inputArray[x][y])
-		if (contains(head, str)) {
-			cout << str << endl;
+	if (x >= 0 && x < M && y >= 0 && y < N && !inputArray[x][y].second) {
+		//traverse(inputArray, M, N);
+		
+		char* sum = new char[strlen(str) +strlen(&inputArray[x][y].first)+1];
+		strcpy(sum, str);
+		strcat(sum, &inputArray[x][y].first); // add newest letter to char array
+		
+		if (contains(head, sum)) {
+			cout << sum << endl;
 			// mark off letters as used
+			inputArray[x][y].second = true;
 		}
-		if (containsPrefix(head, str)) {
-			// try surrounding locations from input array (and all other params)
-			findWords(..., x + 1, y)
-			findWords(x, y + 1)
-			findWords(x + 1, y + 1)
-			findWords(x - 1, y)
-			findWords(x, y - 1)
-			findWords(x - 1, y - 1)
-			findWords(x + 1, y - 1)
-			findWords(x - 1, y + 1)
+		if (containsPrefix(head, sum)) {
 			// mark off letters as used
+			inputArray[x][y].second = true;
+			// try surrounding locations from input array (and all other params)
+			findWords(inputArray, head, sum, x + 1, y, M, N);
+			findWords(inputArray, head, sum, x, y + 1, M, N);
+			findWords(inputArray, head, sum, x + 1, y + 1, M, N);
+			findWords(inputArray, head, sum, x - 1, y, M, N);
+			findWords(inputArray, head, sum, x, y - 1, M, N);
+			findWords(inputArray, head, sum, x - 1, y - 1, M, N);
+			findWords(inputArray, head, sum, x + 1, y - 1, M, N);
+			findWords(inputArray, head, sum, x - 1, y + 1, M, N);
 		}
 	}
-	*/
 }
+
 
 int main()
 {
@@ -151,8 +167,8 @@ int main()
 	int size;
 	std::cin >> size;
 	char c;
-	pair<char, bool> inputArray[size][size];
-	/*
+	pair<char, bool> inputArray[4][4];
+	
 	for (int i=0; i<size; i++) {
 		for (int j=0; j<size; j++) {
 			std::cin >> c; // reads from boggle.dat
@@ -160,17 +176,11 @@ int main()
 		}
 	}
 
-	for (int i=0; i<size; i++) {
-		for (int j=0; j<size; j++) {
-			std::cout << "(" << inputArray[i][j].first << "," << inputArray[i][j].second << ") ";
-		}
-		std::cout << std::endl;
-	}
-	*/
+	traverse(inputArray, size, size);
 
 	for (int i=0; i<size; i++) {
 		for (int j=0; j<size; j++) {
-			findWords(inputArray, head, inputArray[i][j].first);
+			findWords(inputArray, head, &inputArray[i][j].first, i, j, size, size);
 		}
 	}
 

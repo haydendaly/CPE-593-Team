@@ -86,20 +86,29 @@ bool containsPrefix(Trie* head, char* str)
 	return true;
 }
 
-bool findWords(pair<char, bool> inputArray[][*int], Trie* head, char* str)
+bool findWords(pair<char, bool> inputArray[][*int], Trie* head, char* str, int x, int y, int m)
 {
 	/*
-	if (contains(head, str)) {
-		cout << str << endl;
-		// mark off letters as used
-	}
-	else if (containsPrefix(head, str)) {
-		// try surrounding locations from input array
-		findWords()
-		// mark off letters as used
+	if (x >= 0 && x < maxX && y >= 0 && y < maxY && inputArray[x][y] hasn't been used) {
+		str.push_back(inputArray[x][y])
+		if (contains(head, str)) {
+			cout << str << endl;
+			// mark off letters as used
+		}
+		if (containsPrefix(head, str)) {
+			// try surrounding locations from input array (and all other params)
+			findWords(..., x + 1, y)
+			findWords(x, y + 1)
+			findWords(x + 1, y + 1)
+			findWords(x - 1, y)
+			findWords(x, y - 1)
+			findWords(x - 1, y - 1)
+			findWords(x + 1, y - 1)
+			findWords(x - 1, y + 1)
+			// mark off letters as used
+		}
 	}
 	*/
-	cout << str << endl;
 }
 
 int main()

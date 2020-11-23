@@ -96,15 +96,24 @@ bool containsPrefix(Trie* head, char* str)
 	return true;
 }
 
-void findWords(pair<char, bool> inputArray[][4], Trie* head, char* str, int x, int y, int M, int N)
+void findWords(pair<char, bool> inputArray[][4], Trie* head, char* str, int x, int y, int M, int N, bool first)
 {
 	if (x >= 0 && x < M && y >= 0 && y < N && !inputArray[x][y].second) {
 		//traverse(inputArray, M, N);
-		
-		char* sum = new char[strlen(str) +strlen(&inputArray[x][y].first)+1];
-		strcpy(sum, str);
-		strcat(sum, &inputArray[x][y].first); // add newest letter to char array
-		
+
+		char* sum;
+		if (!first){
+			sum = new char[strlen(str) + strlen(&inputArray[x][y].first) + 1];
+			strcpy(sum, str);
+			strcat(sum, &inputArray[x][y].first); // add newest letter to char array
+		}
+		else{
+			sum = new char[strlen(str) + 1];
+			strcpy(sum, str);
+		}
+
+		//cout << sum << endl;
+
 		if (contains(head, sum)) {
 			cout << sum << endl;
 			// mark off letters as used
@@ -114,14 +123,14 @@ void findWords(pair<char, bool> inputArray[][4], Trie* head, char* str, int x, i
 			// mark off letters as used
 			inputArray[x][y].second = true;
 			// try surrounding locations from input array (and all other params)
-			findWords(inputArray, head, sum, x + 1, y, M, N);
-			findWords(inputArray, head, sum, x, y + 1, M, N);
-			findWords(inputArray, head, sum, x + 1, y + 1, M, N);
-			findWords(inputArray, head, sum, x - 1, y, M, N);
-			findWords(inputArray, head, sum, x, y - 1, M, N);
-			findWords(inputArray, head, sum, x - 1, y - 1, M, N);
-			findWords(inputArray, head, sum, x + 1, y - 1, M, N);
-			findWords(inputArray, head, sum, x - 1, y + 1, M, N);
+			findWords(inputArray, head->prev, sum, x + 1, y, M, N, false);
+			findWords(inputArray, head, sum, x, y + 1, M, N, false);
+			findWords(inputArray, head, sum, x + 1, y + 1, M, N, false);
+			findWords(inputArray, head, sum, x - 1, y, M, N, false);
+			findWords(inputArray, head, sum, x, y - 1, M, N, false);
+			findWords(inputArray, head, sum, x - 1, y - 1, M, N, false);
+			findWords(inputArray, head, sum, x + 1, y - 1, M, N, false);
+			findWords(inputArray, head, sum, x - 1, y + 1, M, N, false);
 		}
 	}
 }
@@ -180,7 +189,7 @@ int main()
 
 	for (int i=0; i<size; i++) {
 		for (int j=0; j<size; j++) {
-			findWords(inputArray, head, &inputArray[i][j].first, i, j, size, size);
+			findWords(inputArray, head, &inputArray[i][j].first, i, j, size, size, true);
 		}
 	}
 

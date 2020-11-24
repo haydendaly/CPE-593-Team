@@ -130,10 +130,36 @@ float **multiplyMatrix(float **arr1, float **arr2, int n)
   return multiplied;
 }
 
-
-
-
-
+void grahmSchmidt(float **arr, int n)
+{
+  //Grahm Schmidt using A_squared (normalized --> Perpendicular)
+  float temp_sqr = 0;
+  std::cout << std::endl
+            << "Grahm Schmidt" << std::endl;
+  for (int i = 0; i < n; i++)
+  {
+    for (int j = 0; j < n; j++)
+    {
+      temp_sqr += arr[j][i] * arr[j][i]; //using j, i rather than i, j to loop by column
+    }
+    //temp_sqr = sum right now
+    temp_sqr = sqrt(temp_sqr);
+    for (int j = 0; j < n; j++)
+    {
+      arr[j][i] = arr[j][i] / temp_sqr;
+    }
+  }
+  //print GS
+  for (int i = 0; i < n; i++)
+  {
+    for (int j = 0; j < n; j++)
+    {
+      std::cout << (arr[i][j]) << "  ";
+    }
+    std::cout << std::endl;
+  }
+  std::cout << std::endl;
+}
 
 int main()
 {
@@ -225,30 +251,7 @@ int main()
     std::cout << std::endl;
   }
 
-  //Grahm Schmidt using A_squared (normalized --> Perpendicular)
-  float temp_sqr = 0;
-  std::cout << std::endl << "Grahm Schmidt" << std::endl;
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      temp_sqr += A_squared[j][i] * A_squared[j][i]; //using j, i rather than i, j to loop by column
-    }
-    //temp_sqr = sum right now
-    temp_sqr = sqrt(temp_sqr);
-    for (int j = 0; j < n; j++) {
-      A_squared[j][i] = A_squared[j][i]/temp_sqr;
-    }
-  }
-    //print GS
-   for (int i = 0; i < n; i++)
-  {
-    for (int j = 0; j < n; j++)
-    {
-      std::cout << (A_squared[i][j]) << "  ";
-    }
-    std::cout << std::endl;
-  }
-  std::cout << std::endl;
-
+  grahmSchmidt(A_squared, n);
 
   // Clean up memory
   for (int i = 0; i < n; i++)

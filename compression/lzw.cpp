@@ -1,54 +1,53 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 
 using namespace std;
+// Global dictionary to hold characters and keys
+map<char, int> table;
+map<int, char> rosetta; // Reverse of table
 
-string lzw_encode(map<string, int> table, string data) {
-    string s = "";
-    char ch;
-    while (there is still data) {
-        ch = character input;
-        if (s + ch in table) {
-            s = s + ch;
-        } else {
-            encode s to output file;
-            add s + ch to dictionary;
-            s = ch;
+vector<int> lzw_encode(string data) {
+    vector<int> result;
+    int count = 0;
+    for (char ch : data) {
+        if (table.find(ch) == table.end()) {
+            count++;
+            table[ch] = count;
+            rosetta[count] = ch;
         }
     }
-    encode s to output file;
+    for (char ch : data) {
+        int curr = table[ch];
+        result.push_back(curr);
+    }
+    return result;
 }
 
-void lzw_decode(map<string, int> table, string encoded_data) { 
-    prevcode = read in a code;
-    decode/output prevcode;
-    while (there is still data) {
-        currcode = read in a code;
-        entry = table[currcode];
-        output entry;
-        ch = entry[0];
-        add ((translation of prevcode) + ch) to dictionary;
-        prevcode = currcode;
+string lzw_decode(vector<int> encoded_data) {
+    string result;
+    for (int x : encoded_data) {
+        result += rosetta[x];
     }
+    return result;
 }
 
 int main() { 
-    // Create dictionary of all 256 characters
-    map<string, int> table;
-    for (int i = 0; i <= 255; i++) {
-        string ch = "";
-        ch += char(i);
-        table[ch] = 1;
-    }
-
     // Test string
-    string data = "Hello there hell the their ello"; 
-    string encoded_data = lzw_encode(table, data); 
-    string decoded_data = lzw_decode(table, encoded_data); 
+    string data = "banana bandana hbdsfbhxzf hb cfbhxz chvxzh chshv csh hv ch hv chvhv"; 
+    vector<int> encoded_data = lzw_encode(data); 
+    string decoded_data = lzw_decode(encoded_data); 
 
-    // Console steps
+    // Console stages
     cout << "Raw: \n" << data << endl; 
-    cout << "Encoded: \n" << encoded_data << endl; 
-    cout << "Decoded: \n" << decoded_data << endl;
+    cout << "\nTable:\n";
+    for (auto it : table) {
+        cout << it.first << ": " << it.second << endl;
+    }
+    cout << "\nEncoded Data:\n";
+    for (int i : encoded_data) {
+        cout << i << ", ";
+    }
+    cout << "\n\nDecoded:\n" << decoded_data << endl;
 }

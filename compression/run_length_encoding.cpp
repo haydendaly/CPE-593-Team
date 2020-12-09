@@ -12,8 +12,8 @@ string run_length_encode(string a) { // O(n)
             count++;
             i++;
         }
-        result.append(a[i]);
-        result.append(to_string(count));
+        result += a[i];
+        result += to_string(count);
     }
     return result;
 }
